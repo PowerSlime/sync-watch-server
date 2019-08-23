@@ -43,6 +43,14 @@ module.exports = function(server) {
             callback(room);
         });
 
+        socketClient.on("room/player/seek", (data, callback = () => {}) => {
+            const room = Rooms.getRoomInfo(data.room);
+            console.log("got seek", data.time);
+
+            socketClient.broadcast.emit(`room/${data.room}/player/seek`, data.time);
+            callback(room);
+        });
+
         socketClient.on("disconnect", (data, callback = () => {}) => {
             const room = Rooms.getRoomInfo(client.room);
             client.room = null;
