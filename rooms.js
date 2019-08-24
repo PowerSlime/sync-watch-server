@@ -89,6 +89,14 @@ class Room {
             }
         }
     }
+
+    setRoomEpisode(roomId, season, episode) {
+        const room = this.getRoomInfo(roomId);
+        if (room) {
+            room.season = season;
+            room.episode = episode;
+        }
+    }
 }
 
 module.exports = new Room();

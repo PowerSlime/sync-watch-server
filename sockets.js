@@ -51,6 +51,18 @@ module.exports = function(server) {
             callback(room);
         });
 
+        socketClient.on("room/player/changeEpisode", (data, callback = () => {}) => {
+            const room = Rooms.getRoomInfo(data.room);
+            const season = data.season;
+            const episode = data.episode;
+            console.log("got change episode", season, episode);
+
+            Rooms.setRoomEpisode(data.room, season, episode);
+
+            socketClient.broadcast.emit(`room/${data.room}/player/changeEpisode`, { season, episode });
+            callback(room);
+        });
+
         socketClient.on("disconnect", (data, callback = () => {}) => {
             const room = Rooms.getRoomInfo(client.room);
             client.room = null;
